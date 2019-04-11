@@ -1,7 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser'
-import { NgModule } from '@angular/core'
-import { RouterModule } from '@angular/router'
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { RouterModule, PreloadAllModules } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import {
   appRoutes,
@@ -13,29 +14,33 @@ import {
   CreateSessionComponent,
   CollapsibleComponent,
   SessionListComponent,
-  EventRouteActivator,
   EventsListComponent,
   EventsListResolver,
+  EventResolver,
   EventService,
   EventThumbnailComponent,
   NavbarComponent,
   JQ_TOKEN,
-  TOASTR_TOKEN, 
+  TOASTR_TOKEN,
   Toastr,
   SimpleModal,
   DurationPipe,
-  ModalTriggerDirective
-} from './index'
+  ModalTriggerDirective,
+  UpvoteComponent,
+  VoterService,
+  LocationValidator
+} from './index';
 
-let toastr: Toastr = window['toastr']
-let jQuery = window['$']
+const toastr: Toastr = window['toastr'];
+const jQuery = window['$'];
 
-@NgModule({ 
+@NgModule({
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes),//, { preloadingStrategy: PreloadAllModules }),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   declarations: [
     EventsAppComponent,
@@ -50,16 +55,19 @@ let jQuery = window['$']
     CollapsibleComponent,
     DurationPipe,
     SimpleModal,
-    ModalTriggerDirective
+    ModalTriggerDirective,
+    UpvoteComponent,
+    LocationValidator
   ],
   providers: [
     EventService,
-    { provide: TOASTR_TOKEN, useValue: toastr },
     { provide: JQ_TOKEN, useValue: jQuery },
-    EventRouteActivator,
-    { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState},
+    { provide: TOASTR_TOKEN, useValue: toastr },
+    { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
+    EventResolver,
     EventsListResolver,
-    AuthService
+    AuthService,
+    VoterService
   ],
   bootstrap: [
     EventsAppComponent
@@ -67,8 +75,9 @@ let jQuery = window['$']
 })
 export class AppModule { }
 
-export function checkDirtyState(component:CreateEventComponent) {
-  if (component.isDirty)
-    return window.confirm('You have not saved this event, do you really want to cancel?')
-  return true
+export function checkDirtyState(component: CreateEventComponent) {
+  if (component.isDirty) {
+    return window.confirm('You have not saved this event, do you really want to cancel?');
+  }
+  return true;
 }

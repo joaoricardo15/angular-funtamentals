@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, ElementRef, Inject }  from '@angular/core'
-import { JQ_TOKEN } from '../common/jquery.service'
+import { Component, Input, ViewChild, ElementRef, Inject }  from '@angular/core';
+import { JQ_TOKEN } from '../common/jquery.service';
 
 @Component({
   selector: 'simple-modal',
@@ -7,7 +7,7 @@ import { JQ_TOKEN } from '../common/jquery.service'
     <div id="{{elementId}}" #modalContainer class="modal fade" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header"> 
+          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">
               <span>&times;</span>
             </button>
@@ -18,22 +18,23 @@ import { JQ_TOKEN } from '../common/jquery.service'
           </div>
         </div>
       </div>
-    </div>  
+    </div>
   `,
   styles: [`
     .modal-body { height: 250px; overflow-y: scroll; }
   `]
 })
 export class SimpleModal {
-  @Input() title: string
-  @Input() elementId: string
-  @Input() closeOnBodyClick: boolean
-  @ViewChild('modalContainer') containerElementRef: ElementRef
+  @Input() title: string;
+  @Input() elementId: string;
+  @Input() closeOnBodyClick: boolean;
+  @ViewChild('modalContainer') containerElementRef: ElementRef;
 
   constructor(@Inject(JQ_TOKEN) private $: any) {}
 
   closeModal() {
-    if (this.closeOnBodyClick)
-      this.$(this.containerElementRef.nativeElement).modal('hide')
+    if (this.closeOnBodyClick) {
+      this.$(this.containerElementRef.nativeElement).modal('hide');
+    }
   }
 }

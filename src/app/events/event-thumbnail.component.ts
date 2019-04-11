@@ -32,9 +32,10 @@ import { IEvent } from './shared/event.model';
 export class EventThumbnailComponent {
   @Input() event: IEvent;
 
-  getStartStyle():any {
-    if (this.event && this.event.time === "8:00 am")
-      return {color: '#003300', 'font-weight': 'bold'}
-    return {}
+  getStartStyle(): any {
+    if (this.event && this.event.time === '8:00 am') {
+      return {color: '#003300', 'font-weight': 'bold'};
+    }
+    return {};
   }
 }
